@@ -1,0 +1,416 @@
+<!--
+/*
+ * Project:	    A-02 : HTML FORMS, VALIDATION AND SUBMISSION
+ * Author:	    Hoang Phuc Tran
+ * Student ID:  8789102
+ * Date:		    September 25, 2022
+ * Description: An application as part of an HTML file that will prompt the user to enter 
+ first and last name, street address, city, province, and postal code, then prompt the user to choose 
+  between being Student or Faculty. After Register button is pressed, the data on the form is first 
+  validated for completeness and content format and then submitted to the response page.
+ */
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SET Registration</title>
+    <style>
+      .checkBoxClass 
+      {
+         display: inline-block;
+         width: min-content;
+         white-space: nowrap;
+          text-align: left;
+      }
+
+      label 
+      {
+         display: inline-block;
+         text-align: left;
+         width: 150px;
+      }
+    </style>
+
+    <script type="text/javascript">
+        var province = null;          // holds province
+        var postalCode = null;        // holds postal code
+        var city = null;              // holds city name
+        var address = null;           // holds address
+        var inputName = null;         // hold the user's first and last name
+        var alpha = /^[a-z A-Z]+$/;   // Regular expression 
+        var num = /^[0-9]+$/;         // Regular expression 
+        var nameRegExp = /^[a-zA-Z]+ [a-zA-Z]+$/;            // Regular expression for validating name 
+        var addressRegExp = /^[0-9]+[a-zA-Z ]+[a-zA-Z ]+$/   // Regular expression for validating address
+        var cityRegExp = /^[a-zA-Z]+(?:[\s][a-zA-Z]+)*$/;    // Regular expression for validating city
+        var postalCodeExp = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/;  // Regular expression for validating Canadian postal code
+
+      /*
+       * Function: checkName()
+       * Description : This function will check the name from the user' input 
+       * Parameters : NONE
+       * Returns : it returns true if the name is valid, otherwise false
+       */
+        function checkName()
+        {
+          // Clean the error message
+            document.getElementById("errorMessage1").innerHTML ="";
+            // Get the value from input
+            inputName = document.getElementById("nameText").value;
+            // Check if the value is empty or not
+            if(inputName.length == 0)
+            {
+                document.getElementById("errorMessage1").innerHTML = "Your name cannot be BLANK!";
+                return false;
+            }
+            // if the name matches with regular expression, it will be return true
+            else if(inputName.match(nameRegExp))
+            {
+                return true;
+            }
+            else
+            {
+                document.getElementById("errorMessage1").innerHTML = "Your first and last name must contain only characters and one space!";
+                return false;
+            }
+        }
+
+        /*
+       * Function: checkStreetAddress()
+       * Description : This function will check the street address from the user' input
+       * Parameters : NONE
+       * Returns : it returns true if the street address is valid, otherwise false
+       */
+        function checkStreetAddress()
+        {
+          // Clean the error message
+            document.getElementById("errorMessage2").innerHTML ="";
+            // Get the value from input
+            address = document.getElementById("addressText").value;
+
+            // Check if the value is empty or not
+            if(address.length == 0)
+            {
+                document.getElementById("errorMessage2").innerHTML = "Your street address cannot be BLANK!";
+                return false;
+            }
+            // if the street address matches with regular expression, it will be return true
+            else if(address.match(addressRegExp))
+            {
+                
+                return true;
+            }
+            else
+            {
+                document.getElementById("errorMessage2").innerHTML = "Your street address must be comprised of a sequence of numbers followed by a space and then alphabetic characters";
+                return false;
+            }
+        }
+
+        /*
+       * Function: checkCity()
+       * Description : This function will check the city from the user' input
+       * Parameters : NONE
+       * Returns : it returns true if the city is valid, otherwise false
+       */
+        function checkCity()
+        {
+          // Clean the error message
+            document.getElementById("errorMessage3").innerHTML ="";
+            city = document.getElementById("cityText").value;
+            // Check if the value is empty or not
+            if(city.length == 0)
+            {
+                document.getElementById("errorMessage3").innerHTML = "Your city cannot be BLANK!";
+                return false;
+            }
+            // if the street address matches with regular expression, it will be return true
+            else if(city.match(cityRegExp))
+            {
+                return true;
+            }
+            else
+            {
+                document.getElementById("errorMessage3").innerHTML = "Your city must be comprised of alphabetic characters!";
+                return false;
+            }
+        }
+
+         /*
+       * Function: checkProvince()
+       * Description : This function will check the province from the user' input
+       * Parameters : NONE
+       * Returns : it returns true if the province is valid, otherwise false
+       */
+        function checkProvince()
+        {
+          // Clean the error message
+          document.getElementById("errorMessage5").innerHTML ="";
+          province = document.getElementById("province1").value;
+          // Check if the value is empty or not
+          if(province == null || province =="")
+          {
+            document.getElementById("errorMessage5").innerHTML = "You need to select your Province!";
+            return false;
+          }
+          else
+          {
+            return true;
+          }
+        }
+
+         /*
+       * Function: checkPostalCode()
+       * Description : This function will check the postal code from the user' input
+       * Parameters : NONE
+       * Returns : it returns true if the postal code is valid, otherwise false
+       */
+        function checkPostalCode()
+        {
+          // Clean the error message
+            document.getElementById("errorMessage4").innerHTML ="";
+            postalCode = document.getElementById("postalCodeText").value;
+            // Check if the value is empty or not
+            if(postalCode.length == 0)
+            {
+                document.getElementById("errorMessage4").innerHTML = "Your postal code cannot be BLANK!";
+                return false;
+            }
+            // if the street address matches with regular expression, it will be return true
+            else if(postalCode.match(postalCodeExp))
+            {
+               
+                return true;
+            }
+            else
+            {
+                document.getElementById("errorMessage4").innerHTML = "Your postal code is not correct!";
+                return false;
+            }
+        }
+
+         /*
+       * Function: checkRadioButtons()
+       * Description : This function will check the optional radio buttons is pressed or not
+       * Parameters : NONE
+       * Returns : it returns true if the postal code is valid, otherwise false
+       */
+        function checkRadioButtons()
+        {
+          // clean the error message and hide the optional select
+          document.getElementById("errorMessage6").innerHTML ="";
+          document.getElementById("section6.1").style.display = "none";
+          document.getElementById("section6.2").style.display = "none";
+          // Check if the faculty option is pressed or not
+          if(document.getElementById("option1").checked)
+          {
+            // Uncheck the option 
+            document.getElementById("study").checked = false;
+            document.getElementById("laptop").checked = false;
+            document.getElementById("bus").checked = false;
+            document.getElementById("enjoy").checked = false;
+          // Display the optional select after the faculty option is pressed
+            document.getElementById("section6.1").style.display = "block";
+            return true;
+          }
+          // Check if the student option is pressed or not
+          if(document.getElementById("option2").checked)
+          {
+            // Uncheck the option 
+            document.getElementById("teach").checked = false;
+            document.getElementById("drive").checked = false;
+            document.getElementById("lunch").checked = false;
+          // Display the optional select after the student option is pressed
+            document.getElementById("section6.2").style.display = "block";
+            return true;
+          }
+          else
+          {
+            return false;
+          }
+        }
+
+         /*
+       * Function: checkValidation()
+       * Description : This function will check all the user's input before submitting the from
+       * Parameters : NONE
+       * Returns : NONE
+       */
+        function checkValidation()
+        {
+          var name = checkName();
+          var address = checkStreetAddress();
+          var city = checkCity();
+          var province = checkProvince();
+          var postalCode = checkPostalCode();
+          var radioButtons = checkRadioButtons();
+
+          var final = name && address && city && province && postalCode && radioButtons;
+
+          if(radioButtons == false)
+          {
+            document.getElementById("errorMessage6").innerHTML = "You need choose an option!";
+            event.preventDefault();
+          }
+          if(final == true)
+          {
+            document.getElementById("errorMessage7").innerHTML = "Thank you! Your form is submitted successfully!";
+          }
+          else
+          {
+            document.getElementById("errorMessage7").innerHTML = "Sorry! Your form is not correct!";
+            event.preventDefault();
+          }
+        }
+
+        /*
+       * Function: clearForm()
+       * Description : This function will clear all the from to the default
+       * Parameters : NONE
+       * Returns : NONE
+       */
+        function clearForm()
+        {
+          document.getElementById("nameText").value = "";
+          document.getElementById("errorMessage1").innerHTML ="";
+          document.getElementById("addressText").value = "";
+          document.getElementById("errorMessage2").innerHTML ="";
+          document.getElementById("cityText").value = "";
+          document.getElementById("errorMessage3").innerHTML ="";
+          document.getElementById("province1").value = "";
+          document.getElementById("errorMessage5").innerHTML ="";
+          document.getElementById("postalCodeText").value = "";
+          document.getElementById("errorMessage4").innerHTML ="";
+          document.getElementById("option1").checked = false;
+          document.getElementById("option2").checked = false;
+          document.getElementById("section6.1").style.display = "none";
+          document.getElementById("section6.2").style.display = "none";
+          document.getElementById("errorMessage6").innerHTML ="";
+          document.getElementById("errorMessage7").innerHTML = "";
+          document.getElementById("teach").checked = false;
+          document.getElementById("drive").checked = false;
+          document.getElementById("lunch").checked = false;
+          document.getElementById("study").checked = false;
+          document.getElementById("laptop").checked = false;
+          document.getElementById("bus").checked = false;
+          document.getElementById("enjoy").checked = false;
+        }
+    </script>
+  </head>
+
+  <!--
+    This HTML code will display/prompt the user:
+    1. Get the first and last name
+    2. Get the street address
+    3. Get the city
+    4. Get the province
+    5. Get the postal code
+    6. Choose option between faculty and student
+    7. Get selecting optional select from the step 6
+  -->
+  <body>
+    <form action="testRequest.asp" method="get" style="margin-left: 350px;" name="registerForm" >
+      <h1 style="margin-left: 50px;">Registration Forms</h1>
+
+      <div id="section1">
+        <label id="name">First and Last Name</label>
+        <input id="nameText" name="nameInput" type="text" style="width:192px"/>
+        <i id="errorMessage1" style="color: red" ></i>
+      </div><br />
+
+      <div id="section2">
+        <label id="streetAddress">Street Address</label>
+        <input id="addressText" name="addressInput" type="text" style="width:192px"/>
+        <i id="errorMessage2" style="color: red"></i>
+      </div><br />
+
+      <div id="section3">
+        <label id="city">City</label>
+        <input id="cityText" name="cityInput" type="text" style="width:192px" />
+        <i id="errorMessage3" style="color: red"></i>
+      </div><br />
+
+      <div id="section4">
+        <label id="province">Province</label>
+        <select id="province1" name="provinceInput" style="width:200px">
+          <option hidden disabled selected value id="blank"></option>
+          <option value="AB">Alberta</option>
+          <option value="BC">British Columbia</option>
+          <option value="MB">Manitoba</option>
+          <option value="NB">New Brunswick</option>
+          <option value="NL">Newfoundland and Labrador</option>
+          <option value="NT">Northwest Territories</option>
+          <option value="NS">Nova Scotia</option>
+          <option value="NU">Nunavut</option>
+          <option value="ON">Ontario</option>
+          <option value="PE">Prince Edward Island</option>
+          <option value="QC">Quebec</option>
+          <option value="SK">Saskatchewan</option>
+          <option value="YT">Yukon</option>
+        </select>
+        <i id="errorMessage5" style="color: red"></i>
+      </div><br />
+
+      <div id="section5">
+        <label id="postalCode">Postal Code</label>
+        <input id="postalCodeText" name="postalCodeInput" type="text" style="width:192px"/>
+        <i id="errorMessage4" style="color: red"></i>
+      </div><br />
+
+      <div id="section6" >
+        <label id="name" style="margin-left: 120px;">Choose your option</label><br />
+        <div style="margin-top: 10px; margin-left: 100px;"><p id="errorMessage6" style="color: red"></p></div>
+        <input type="radio" value="Faculty" name="optionButtons" id="option1" style="margin-top: 10px; margin-left: 110px;" onclick="checkRadioButtons()"/>Faculty
+        <input type="radio" value="Student" name="optionButtons" id="option2" style="margin-left: 20px" onclick="checkRadioButtons()"/>Student<br />
+
+        <div class="checkBoxClass" id="section6.1" style="margin-left: 90px; display: none;"  >
+          <label style="margin-top: 10px; margin-left: 40px;">You can select:</label>
+          <div>
+            <input type="checkbox" name="optionalSelect" value="Teach in Engineering" id="teach" name="teachInEngineering" style="margin-top: 5px"/>
+            <label>Teach in Engineering</label>
+          </div>
+          <div>
+            <input type="checkbox" name="optionalSelect" value="Drive Car to Work" id="drive" name="driveCarToWork" style="margin-top: 10px"/>
+            <label>Drive Car to Work</label>
+          </div>
+          <div>
+            <input type="checkbox" name="optionalSelect" value="Bring Lunch" id="lunch" name="bringLunch" style="margin-top: 10px"/>
+            <label>Bring Lunch</label>
+          </div>
+        </div>
+
+        <div class="checkBoxClass" id="section6.2" style="margin-left: 90px; display: none;">
+            <label style="margin-top: 10px; margin-left: 40px;">You can select:</label>
+            <div>
+              <input type="checkbox" name="optionalSelect" value="Study in Information Technology" id="study" name="studyIT" style="margin-top: 5px"/>
+              <label>Study in Information Technology</label>
+            </div>
+            <div>
+              <input type="checkbox" name="optionalSelect" value="Own a Laptop Computer" id="laptop" name="ownLaptop" style="margin-top: 10px"/>
+              <label>Own a Laptop Computer</label>
+            </div>
+            <div>
+              <input type="checkbox" name="optionalSelect" value="Take Bus to School" id="bus" name="takeBus" style="margin-top: 10px"/>
+              <label>Take Bus to School</label>
+            </div>
+            <div>
+                <input type="checkbox" name="optionalSelect" value="Enjoys Web Design and Development" id="enjoy" name="enjoyWDD" style="margin-top: 10px"/>
+                <label>Enjoys Web Design and Development</label>
+              </div>
+          </div><br />
+
+      </div>
+
+      <div style="margin-top: 30px; margin-left: 70px;">
+        <i id="errorMessage7" style="color: red"></i>
+      </div>
+
+      <div style="margin-top: 30px";>
+          <input class="buttonLeft" id="buttonRe" type="submit" value="Register" style="width: 100px; height: 30px; margin-left: 50px;" onclick="checkValidation();"/>
+  
+          <input class="buttonRight" id="buttonCl" type="button" value="Clear Form" style="width: 100px; height: 30px; margin-left: 60px;" onclick="clearForm()"/>
+        </div>
+
+    </form>
+
+  </body>
+</html>
